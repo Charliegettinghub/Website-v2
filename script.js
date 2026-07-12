@@ -48,3 +48,74 @@ window.addEventListener(
   },
   { passive: true }
 );
+
+// Print card photo carousels (Instagram-style swipe/dots/arrows)
+const prefersReducedMotionForCarousel = window.matchMedia(
+  "(prefers-reduced-motion: reduce)"
+).matches;
+
+document.querySelectorAll(".print-carousel").forEach((carousel) => {
+  const track = carousel.querySelector(".print-carousel__track");
+  const slides = Array.from(track.querySelectorAll(".print-carousel__slide"));
+  const prevBtn = carousel.querySelector(".print-carousel__arrow--prev");
+  const nextBtn = carousel.querySelector(".print-carousel__arrow--next");
+  const dotsContainer = carousel.querySelector(".print-carousel__dots");
+
+  if (slides.length < 2) return;
+
+  track.tabIndex = 0;
+
+  function scrollBehavior() {
+    return prefersReducedMotionForCarousel ? "auto" : "smooth";
+  }
+
+  function currentIndex() {
+    return Math.round(track.scrollLeft / track.clientWidth);
+  }
+
+  function setActiveDot(index) {
+    dots.forEach((dot, i) => {
+      dot.classList.toggle("is-active", i === index);
+      dot.setAttribute("aria-selected", i === index);
+    });
+  }
+
+  function goToSlide(index) {
+    track.scrollTo({ left: track.clientWidth * index, behavior: scrollBehavior() });
+  }
+
+  const dots = slides.map((_, index) => {
+    const dot = document.createElement("button");
+    dot.className = "print-carousel__dot";
+    dot.setAttribute("role", "tab");
+    dot.setAttribute("aria-selected", index === 0);
+    dot.setAttribute("aria-label", `Photo ${index + 1} of ${slides.length}`);
+    dot.addEventListener("click", () => goToSlide(index));
+    dotsContainer.appendChild(dot);
+    return dot;
+  });
+  dots[0].classList.add("is-active");
+
+  prevBtn.addEventListener("click", () => goToSlide(Math.max(0, currentIndex() - 1)));
+  nextBtn.addEventListener("click", () =>
+    goToSlide(Math.min(slides.length - 1, currentIndex() + 1))
+  );
+
+  track.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowLeft") goToSlide(Math.max(0, currentIndex() - 1));
+    if (e.key === "ArrowRight") goToSlide(Math.min(slides.length - 1, currentIndex() + 1));
+  });
+
+  let scrollRaf = null;
+  track.addEventListener(
+    "scroll",
+    () => {
+      if (scrollRaf) return;
+      scrollRaf = requestAnimationFrame(() => {
+        setActiveDot(currentIndex());
+        scrollRaf = null;
+      });
+    },
+    { passive: true }
+  );
+});
