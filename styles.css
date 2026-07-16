@@ -13,6 +13,8 @@
 
   --line: rgba(255, 255, 255, 0.08);
   --line-strong: rgba(255, 255, 255, 0.16);
+  --grid-line: rgba(255, 255, 255, 0.04);
+  --grid-line-strong: rgba(255, 255, 255, 0.08);
 
   --ink-0: #f1efec;
   --ink-1: #b3b5b9;
@@ -99,16 +101,16 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
   z-index: 0;
   pointer-events: none;
   background-image:
-    linear-gradient(var(--line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
   background-size: var(--grid-size) var(--grid-size);
   background-position: center top;
 }
 
 .grid-bg--spotlight {
   background-image:
-    linear-gradient(var(--line-strong) 1px, transparent 1px),
-    linear-gradient(90deg, var(--line-strong) 1px, transparent 1px);
+    linear-gradient(var(--grid-line-strong) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line-strong) 1px, transparent 1px);
   -webkit-mask-image: radial-gradient(
     480px 480px at var(--mx, 50%) var(--my, 15%),
     black 0%,
@@ -212,7 +214,8 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
 .status-pill {
   display: inline-flex;
   align-items: center;
-  gap: 0.55em;
+  justify-content: center;
+  text-align: center;
   font-family: var(--font-mono);
   font-size: 0.72rem;
   letter-spacing: 0.04em;
@@ -220,16 +223,9 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
   color: var(--accent);
   background: var(--accent-soft);
   border-radius: 999px;
-  padding: 0.5em 1.1em 0.5em 0.9em;
+  padding: 0.5em 1.1em;
   margin-bottom: 2rem;
   width: fit-content;
-}
-.status-pill__dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--accent-fill);
-  flex: none;
 }
 
 .hero__name {
@@ -338,6 +334,8 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
 
   --line: rgba(255, 255, 255, 0.06);
   --line-strong: rgba(255, 255, 255, 0.14);
+  --grid-line: rgba(255, 255, 255, 0.03);
+  --grid-line-strong: rgba(255, 255, 255, 0.07);
 
   --ink-0: #f2f1ee;
   --ink-1: #a9abaf;
@@ -357,8 +355,8 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
   inset: 0;
   z-index: -1;
   background-image:
-    linear-gradient(var(--line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
   background-size: var(--grid-size) var(--grid-size);
   background-position: center top;
   background-attachment: fixed;
